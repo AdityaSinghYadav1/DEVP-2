@@ -1,0 +1,37 @@
+import streamlit as st
+import pandas as pd
+
+
+
+df = pd.DataFrame('/content/Sleep_health_and_lifestyle_dataset.csv')
+
+# Streamlit App
+st.title("Health Dashboard")
+
+# Sidebar for filtering options
+st.sidebar.header("Filter Data")
+selected_gender = st.sidebar.selectbox("Select Gender", df['Gender'].unique())
+selected_activity_level = st.sidebar.selectbox("Select Activity Level", df['Physical Activity Level'].unique())
+
+# Filter the data based on selected options
+filtered_data = df[(df['Gender'] == selected_gender) & (df['Physical Activity Level'] == selected_activity_level)]
+
+# Display filtered data
+st.write("Filtered Data:")
+st.write(filtered_data)
+
+# Basic statistics
+st.write("Basic Statistics:")
+st.write(filtered_data.describe())
+
+# Line chart example (replace with relevant visualization)
+st.line_chart(filtered_data[['Age', 'Heart Rate']])
+
+# Bar chart example
+st.bar_chart(filtered_data.groupby('BMI Category').size())
+
+# Pie chart example
+st.write("Sleep Disorder Distribution:")
+st.plotly_chart(filtered_data['Sleep Disorder'].value_counts().plot.pie(autopct='%1.1f%%'))
+
+# You can add more charts and visualizations based on your specific requirements
